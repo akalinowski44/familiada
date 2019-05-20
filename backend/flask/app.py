@@ -10,6 +10,7 @@ api = Api(app)
 class QuestionListAPI(Resource):
     def get(self):
         questions = persistence.get_all_questions()
+        print(questions)
         return questions
 
 
@@ -33,4 +34,7 @@ api.add_resource(QuestionListAPI, '/api/questions', endpoint='questions')
 api.add_resource(QuestionAPI, '/api/question/<int:question_id>', endpoint='question')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        debug=True,
+        host='0.0.0.0',
+        port=8080)
