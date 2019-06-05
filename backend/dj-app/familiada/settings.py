@@ -33,6 +33,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'game',
     'questions.apps.QuestionsConfig',
     'corsheaders',
     'rest_framework',
@@ -129,4 +131,15 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
 ]
+
+ASGI_APPLICATION = "familiada.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

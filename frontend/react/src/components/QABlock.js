@@ -14,10 +14,10 @@ class QABlock extends React.Component {
         return (
             <div className="question">
                 <h2>Question: {this.props.question['content']}</h2>
-                <ul>
+                <ol>
                     <h3>Answers:</h3>
                     {this.UnpackAnswers(this.props.question['answers'])}
-                </ul>
+                </ol>
             </div>
         )
     }

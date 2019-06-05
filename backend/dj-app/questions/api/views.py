@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
+from django.http import Http404
+
 from .serializers import QuestionSerializer
 from ..models import Question
 
@@ -30,6 +32,8 @@ class ApiQuestionById(APIView):
         # select random question by when id = 0
         if question_id == 0:
             ids = Question.objects.only('pk')
+            if len(ids) == 0:
+                return Http404("Database is empty")
             question_id = random.choice(ids).pk
 
         question = Question.objects.get(pk=question_id)
