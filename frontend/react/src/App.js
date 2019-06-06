@@ -5,6 +5,7 @@ import QuestionById from './components/QuestionById'
 import QuestionForm from './components/QuestionForm'
 import Game from './components/Game'
 import GameQABlock from './components/GameQABlock'
+import {Nav, Navbar} from "react-bootstrap";
 
 function App() {
 
@@ -14,63 +15,27 @@ function App() {
 
     return (
         <Router>
-            <div>
-
-                <Header/>
+                <NavigationBar/>
                 <Route path="/game" component={Game}/>
                 <Route path="/gameView" component={GameQABlock}/>
 
                 <Route path="/questions" component={ListOfQuestions}/>
                 <Route path="/questionForm" component={QuestionForm}/>
                 <Route path="/question/random" render={() => <QuestionById {...p}/>}/>
-                <Scripts/>
-            </div>
         </Router>
     );
 }
 
 
-function Header() {
+function NavigationBar() {
     return (
-
-        <ul>
-            <li>
-                <Link to="/game">Start Game</Link>
-            </li>
-            <li>
-                <Link to="/questions">Questions</Link>
-            </li>
-            <li>
-                <Link to="/questionForm">Question Form</Link>
-            </li>
-        </ul>
-    );
-}
-
-function Scripts() {
-    return (
-      <div>
-          <script src="https://unpkg.com/react/umd/react.production.js" crossOrigin/>
-
-          <script
-              src="https://unpkg.com/react-dom/umd/react-dom.production.js"
-              crossOrigin
-          />
-
-          <script
-              src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
-              crossOrigin
-          />
-
-          <link
-              rel="stylesheet"
-              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-              crossOrigin="anonymous"
-          />
-
-          <script>var Alert = ReactBootstrap.Alert;</script>
-      </div>
+        <Navbar bg="dark" variant="dark" id="header" sticky="top">
+            <Navbar.Brand href="/game">Familiada</Navbar.Brand>
+            <Nav className="mr-auto">
+                <Nav.Link href="/questions">Lista pytań</Nav.Link>
+                <Nav.Link href="/questionForm">Dodaj pytanie</Nav.Link>
+            </Nav>
+        </Navbar>
     );
 }
 

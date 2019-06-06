@@ -1,6 +1,7 @@
 import React from "react";
 import QABlock from './QABlock'
 import getQuestionById from './functions'
+import {Button, Col, Container, Row} from "react-bootstrap";
 
 class Game extends React.Component {
 
@@ -30,13 +31,14 @@ class Game extends React.Component {
                 let numberOfAnswers = ans.length;
                 for (let i = 0; i < numberOfAnswers; i++) {
                     gameAns.push({
-                        content: '----------',
+                        content: '#########################',
                         score: '--'
                     });
                 }
                 this.setState({
                     gameAnswers: gameAns,
-                    remainingAnswers: numberOfAnswers
+                    remainingAnswers: numberOfAnswers,
+                    roundScore: 0,
                 })
             })
             .then(() => this.populateStorage());
@@ -51,9 +53,9 @@ class Game extends React.Component {
         }
     };
 
-    givePointsToRoundWinner = async () => {
+    givePointsToRoundWinner = async (teamNumber) => {
         let teams = this.state.teams;
-        teams[this.state.activeTeam]['score'] += this.state.roundScore;
+        teams[teamNumber]['score'] += this.state.roundScore;
         for (let i = 0; i < 2; i++) {
             teams[i]['mistakes'] = 0;
         }
@@ -65,24 +67,22 @@ class Game extends React.Component {
 
     };
 
-    addMistake = async () => {
+    addMistake = async (teamNumber) => {
         let teams = this.state.teams;
-        teams[this.state.activeTeam]['mistakes'] += 1;
+        teams[teamNumber]['mistakes'] += 1;
         await this.setState({teams: teams});
         this.populateStorage()
     };
 
-    resetMistakes = () => {
+    resetMistakes = async (teamNumber) => {
         let teams = this.state.teams;
-        for (let i = 0; i < 2; i++) {
-            teams[i]['mistakes'] = 0;
-        }
-        this.setState({teams: teams});
+        teams[teamNumber]['mistakes'] = 0;
+        await this.setState({teams: teams});
+        this.populateStorage();
     };
 
 
     showAnswer = async (index) => {
-        index -= 1;
         let answer = this.state.question['answers'][index];
         let points = answer['score'];
 
@@ -128,27 +128,44 @@ class Game extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <button onClick={this.randomQuestion}>Random Question</button>
 
-                <form onSubmit={this.handleShowAnswer}>
-                    <input type="number" name="ansIndex" id="ansIndex"/>
-                    <input type="submit" value="Show answer"/>
-                </form>
+            <Container className="qablock">
 
-                <button onClick={this.switchActiveTeam}>Switch Active Team</button>
-                <button onClick={this.givePointsToRoundWinner}>Give Round Points to active Team</button>
+                <Row>
+                    <Col>
+                        <h3>{ this.state.teams[0].name }</h3>
+                        <Button className="options" size="sm" variant="danger" onClick={() => this.addMistake(0)}>Add
+                            Mistake</Button>
+                        <Button className="options" size="sm" variant="outline-danger"
+                                onClick={() => this.resetMistakes(0)}>Reset Mistakes</Button>
+                        <Button className="options" size="sm" variant="success"
+                                onClick={() => this.givePointsToRoundWinner(0)}>Give this round points</Button>
+                    </Col>
+                    <Col>
+                        <Button className="options" size="sm" variant="primary" onClick={this.randomQuestion}>Random
+                            Question</Button>
 
-                <button onClick={this.addMistake}>Add Mistake</button>
-                <button onClick={this.resetMistakes}>Reset Mistakes</button>
+                        <QABlock question={this.state.question} action={this.showAnswer}/>
 
-                <h2>Active team: {this.state.teams[this.state.activeTeam]['name']}</h2>
-                <h3>Remaining answers: {this.state.remainingAnswers}</h3>
-                <QABlock question={this.state.question}/>
+                        <form onSubmit={this.handleShowAnswer}>
+                            <input type="number" name="ansIndex" id="ansIndex"/>
+                            <Button className="options" size="sm" variant="outline-primary" type="submit">Show this
+                                answer</Button>
+                        </form>
+                        <Button className="options" size="lg" variant="outline-primary" onClick={this.openGameWindow}>Open Game window</Button>
+                    </Col>
+                    <Col>
+                        <h3>{ this.state.teams[1].name }</h3>
+                        <Button className="options" size="sm" variant="danger" onClick={() => this.addMistake(1)}>Add
+                            Mistake</Button>
+                        <Button className="options" size="sm" variant="outline-danger"
+                                onClick={() => this.resetMistakes(1)}>Reset Mistakes</Button>
+                        <Button className="options" size="sm" variant="success"
+                                onClick={() => this.givePointsToRoundWinner(1)}>Give this round points</Button>
+                    </Col>
+                </Row>
 
-                <button onClick={this.openGameWindow}>Open Game window</button>
-
-            </div>
+            </Container>
 
         )
     }

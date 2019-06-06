@@ -23,32 +23,33 @@ class GameQABlock extends React.Component {
                 roundScore: data['roundScore'],
                 teams: JSON.parse(data['teams'])
             })
-        })
+        });
+
+        document.getElementById("header").style.display = "none";
+
     }
 
     UnpackAnswers(answers) {
         let unpacked = [];
         for (let i = 0; i < answers.length; i++) {
-            unpacked.push(<li key={i}>{answers[i]['content']} | score: {answers[i]['score']}</li>)
+            unpacked.push(<li key={i}>{answers[i]['content'].padEnd(20, '.')} {answers[i]['score']}</li>)
         }
-        return unpacked
+        return unpacked;
     }
 
 
     showTeamStatus = (teamIndex) => {
         return (
-            <table border="1px">
+            <table>
                 <tbody>
-
-                <tr>
-                    <td>Team name</td>
-                    <td>Score</td>
-                    <td>Mistakes</td>
-                </tr>
                 <tr>
                     <td>{this.state.teams[teamIndex]['name']}</td>
-                    <td>{this.state.teams[teamIndex]['score']}</td>
-                    <td>{this.state.teams[teamIndex]['mistakes']}</td>
+                </tr>
+                <tr>
+                    <td align="center">punkty: {this.state.teams[teamIndex]['score']}</td>
+                </tr>
+                <tr>
+                    <td align="center">utraty: {this.state.teams[teamIndex]['mistakes']}</td>
                 </tr>
                 </tbody>
             </table>
@@ -57,10 +58,13 @@ class GameQABlock extends React.Component {
 
     render() {
         return (
-            <Container>
+
+
+            <Container className="game clearfix">
+
                 <Row className="justify-content-md-center">
                     <Col sm="auto">
-                        <h3>Round score: {this.state.roundScore}</h3>
+                        <h3>Suma: {this.state.roundScore}</h3>
                     </Col>
                 </Row>
 
@@ -68,10 +72,12 @@ class GameQABlock extends React.Component {
                     <Col sm="auto">
                         {this.showTeamStatus(0)}
                     </Col>
-                    <Col >
-                        <ol>
-                            {this.UnpackAnswers(this.state.answers)}
-                        </ol>
+                    <Col>
+                        <div className="tablica">
+                            <ol>
+                                {this.UnpackAnswers(this.state.answers)}
+                            </ol>
+                        </div>
                     </Col>
                     <Col sm="auto">
                         {this.showTeamStatus(1)}

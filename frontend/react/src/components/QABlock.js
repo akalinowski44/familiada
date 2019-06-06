@@ -1,24 +1,27 @@
 import React from "react";
+import {Card, ListGroup, Row} from "react-bootstrap";
 
 class QABlock extends React.Component {
 
     UnpackAnswers(answers) {
         let unpacked = [];
         for (let i = 0; i < answers.length; i++) {
-            unpacked.push(<li key={i}>{answers[i]['content']} | score: {answers[i]['score']}</li>)
+            unpacked.push(
+                <ListGroup.Item action onClick={() => this.props.action(i)}>
+                    {i + 1}. {answers[i]['content']} | score: {answers[i]['score']}
+                </ListGroup.Item>)
         }
         return unpacked
     }
 
     render() {
         return (
-            <div className="question">
-                <h2>Question: {this.props.question['content']}</h2>
-                <ol>
-                    <h3>Answers:</h3>
-                    {this.UnpackAnswers(this.props.question['answers'])}
-                </ol>
-            </div>
+                <Card className='qablock' style={{width: '18rem'}}>
+                    <Card.Header>{this.props.question['content']}</Card.Header>
+                    <ListGroup variant="flush">
+                        {this.UnpackAnswers(this.props.question['answers'])}
+                    </ListGroup>
+                </Card>
         )
     }
 }
