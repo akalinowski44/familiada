@@ -20,7 +20,7 @@ class ListOfQuestions extends React.Component {
         for (let i = 0; i < numberOfQuestions; i++) {
             let one = this.state.questions[i];
             questions.push(
-                <QABlock key={i} question={one}/>
+                <QABlock key={i} question={one} action={()=>{return 0}}/>
             );
         }
 

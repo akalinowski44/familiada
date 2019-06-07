@@ -1,0 +1,20 @@
+html, body, #root {
+    height: 100%;
+}
+
+.game {
+    font-family: "LED BOARD REVERSED";
+    color: yellow;
+    background: black;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.options {
+    margin: 2px;
+}
+
+.qablock {
+    margin: 15px 0 15px 0;
+    min-height: 150px;
+}

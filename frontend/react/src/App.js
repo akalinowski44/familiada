@@ -1,7 +1,6 @@
 import React from "react";
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import ListOfQuestions from './components/ListOfQuestions'
-import QuestionById from './components/QuestionById'
 import QuestionForm from './components/QuestionForm'
 import Game from './components/Game'
 import GameQABlock from './components/GameQABlock'
@@ -9,23 +8,17 @@ import {Nav, Navbar} from "react-bootstrap";
 
 function App() {
 
-    let p = {
-        q_id: 0
-    };
-
     return (
         <Router>
-                <NavigationBar/>
-                <Route path="/game" component={Game}/>
-                <Route path="/gameView" component={GameQABlock}/>
+            <NavigationBar/>
+            <Route path="/game" component={Game}/>
+            <Route path="/gameView" component={GameQABlock}/>
 
-                <Route path="/questions" component={ListOfQuestions}/>
-                <Route path="/questionForm" component={QuestionForm}/>
-                <Route path="/question/random" render={() => <QuestionById {...p}/>}/>
+            <Route path="/questions" component={ListOfQuestions}/>
+            <Route path="/questionForm" component={QuestionForm}/>
         </Router>
     );
 }
-
 
 function NavigationBar() {
     return (
@@ -38,6 +31,5 @@ function NavigationBar() {
         </Navbar>
     );
 }
-
 
 export default App;

@@ -32,7 +32,7 @@ class GameQABlock extends React.Component {
     UnpackAnswers(answers) {
         let unpacked = [];
         for (let i = 0; i < answers.length; i++) {
-            unpacked.push(<li key={i}>{answers[i]['content'].padEnd(20, '.')} {answers[i]['score']}</li>)
+            unpacked.push(<li key={i}>{answers[i]['content'].padEnd(25, '.')} {answers[i]['score']}</li>)
         }
         return unpacked;
     }
@@ -46,10 +46,10 @@ class GameQABlock extends React.Component {
                     <td>{this.state.teams[teamIndex]['name']}</td>
                 </tr>
                 <tr>
-                    <td align="center">punkty: {this.state.teams[teamIndex]['score']}</td>
+                    <td align="center">punkty:</td><td>{this.state.teams[teamIndex]['score']}</td>
                 </tr>
                 <tr>
-                    <td align="center">utraty: {this.state.teams[teamIndex]['mistakes']}</td>
+                    <td align="center">utraty:</td><td>{this.state.teams[teamIndex]['mistakes']}</td>
                 </tr>
                 </tbody>
             </table>
@@ -58,7 +58,6 @@ class GameQABlock extends React.Component {
 
     render() {
         return (
-
 
             <Container className="game clearfix">
 
@@ -73,14 +72,17 @@ class GameQABlock extends React.Component {
                         {this.showTeamStatus(0)}
                     </Col>
                     <Col>
-                        <div className="tablica">
-                            <ol>
-                                {this.UnpackAnswers(this.state.answers)}
-                            </ol>
-                        </div>
+
                     </Col>
                     <Col sm="auto">
                         {this.showTeamStatus(1)}
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center">
+                    <Col sm="auto">
+                            <ol>
+                                {this.UnpackAnswers(this.state.answers)}
+                            </ol>
                     </Col>
                 </Row>
 
